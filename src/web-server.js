@@ -47,7 +47,15 @@ export function startWebServer() {
         response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
         response.end(content);
       } catch {
-        sendHtml(response, 404, 'Verification File Not Found', 'The TikTok verification file was not found.');
+        const match = path.basename(url.pathname).match(/^tiktok(.+)\.txt$/);
+
+        if (match) {
+          response.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
+          response.end(`tiktok-developers-site-verification=${match[1]}`);
+          return;
+        }
+
+        sendHtml(response, 404, 'Verification File Not Found', 'The verification file was not found.');
       }
       return;
     }
