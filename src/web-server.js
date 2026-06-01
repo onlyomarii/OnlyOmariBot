@@ -40,7 +40,7 @@ export function startWebServer() {
   const server = createServer(async (request, response) => {
     const url = new URL(request.url, `http://${request.headers.host}`);
 
-    if (/^\/tiktok[^/]+\.txt$/.test(url.pathname)) {
+    if (!url.pathname.includes('..') && path.extname(url.pathname) === '.txt') {
       try {
         const filePath = path.join(process.cwd(), 'public', path.basename(url.pathname));
         const content = await readFile(filePath, 'utf8');
