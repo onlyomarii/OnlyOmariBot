@@ -164,5 +164,10 @@ export const commands = [
   new SlashCommandBuilder()
     .setName('refresh-stats')
     .setDescription('Admin: refresh tracked view counts now.')
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild),
+
+  new SlashCommandBuilder()
+    .setName('debug-tiktok')
+    .setDescription('Admin: show TikTok login configuration status.')
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
 ].map((command) => command.toJSON());

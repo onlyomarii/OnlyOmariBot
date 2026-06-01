@@ -28,7 +28,7 @@ import {
   verifyAccount
 } from './storage.js';
 import { refreshStats } from './social/tracker.js';
-import { createPkcePair, createTikTokAuthUrl, hasTikTokLoginConfig } from './social/tiktok-login.js';
+import { createPkcePair, createTikTokAuthUrl, getTikTokRedirectUri, hasTikTokLoginConfig } from './social/tiktok-login.js';
 import { startWebServer } from './web-server.js';
 
 requireConfig(['discordToken']);
@@ -414,7 +414,19 @@ async function handleInteraction(interaction) {
     const tracked = updates.filter((update) => update.status === 'tracked').length;
 
     await interaction.editReply(`Refreshed ${updates.length} post(s). ${tracked} post(s) have live API stats.`);
+    return;
   }
+
+  if (commandName === 'debug-tiktok') {
+    await interaction.editReply([
+      `TikTok client key set: ${hasTikTokLoginConfig() ? 'yes' : 'no'}`,
+      `TikTok redirect URI: ${getTikTokRedirectUri()}`,
+      `Public base URL: ${config.publicBaseUrl || 'not set'}`
+    ].join('\n'));
+    return;
+  }
+
+  await interaction.editReply('This command is registered in Discord, but this running bot version does not handle it yet. Redeploy the latest code and try again.');
 }
 
 client.once(Events.ClientReady, (readyClient) => {
