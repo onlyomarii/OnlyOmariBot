@@ -16,6 +16,11 @@ DISCORD_TOKEN=...
 DISCORD_CLIENT_ID=...
 DISCORD_GUILD_ID=...
 YOUTUBE_API_KEY=
+PUBLIC_BASE_URL=
+PORT=3000
+TIKTOK_CLIENT_KEY=
+TIKTOK_CLIENT_SECRET=
+TIKTOK_REDIRECT_URI=
 TIKTOK_RESEARCH_CLIENT_KEY=
 TIKTOK_RESEARCH_CLIENT_SECRET=
 ```
@@ -62,6 +67,9 @@ Open the generated URL and add the bot to your server.
 - `/add-account platform username`
 - `/verify-status platform username`
 - `/remove-account platform username`
+- `/connect-tiktok`
+- `/tiktok-status`
+- `/remove-tiktok`
 - `/add-paypal paypal_email first_name last_name`
 - `/payment-details`
 - `/remove-payment-details platform`
@@ -83,6 +91,16 @@ This starter uses `data/store.json` for local storage. It is fine for testing an
 
 YouTube links can update real view counts if `YOUTUBE_API_KEY` is set.
 
-TikTok links can update real view counts if TikTok approves your app for Research API access and you set `TIKTOK_RESEARCH_CLIENT_KEY` and `TIKTOK_RESEARCH_CLIENT_SECRET`. Direct TikTok video URLs work best. Short links may work if TikTok redirects them to a normal `/video/` URL.
+TikTok links can update real view counts after creators connect TikTok with `/connect-tiktok` and TikTok approves the requested Login Kit scopes. Set `TIKTOK_CLIENT_KEY`, `TIKTOK_CLIENT_SECRET`, `PUBLIC_BASE_URL`, and `TIKTOK_REDIRECT_URI`.
+
+The TikTok redirect URI should be:
+
+```text
+https://your-host.example.com/auth/tiktok/callback
+```
+
+Direct TikTok video URLs work best. Short links may work if TikTok redirects them to a normal `/video/` URL.
+
+Research API support is also available if TikTok approves your app for Research API access and you set `TIKTOK_RESEARCH_CLIENT_KEY` and `TIKTOK_RESEARCH_CLIENT_SECRET`.
 
 Other platforms are stored and tracked as pending/manual until official API integrations are added.
