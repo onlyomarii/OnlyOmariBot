@@ -5,6 +5,8 @@ import { config } from './config.js';
 import { consumeTikTokOAuthState, saveTikTokConnection } from './storage.js';
 import { exchangeTikTokCode, fetchTikTokUserInfo, getTikTokRedirectUri } from './social/tiktok-login.js';
 
+const webServerVersion = '2026-06-01-tiktok-verification-fallback';
+
 function htmlPage(title, message) {
   return `<!doctype html>
 <html lang="en">
@@ -39,6 +41,26 @@ function sendHtml(response, statusCode, title, message) {
 export function startWebServer() {
   const server = createServer(async (request, response) => {
     const url = new URL(request.url, `http://${request.headers.host}`);
+
+    if (url.pathname === '/debug-public') {
+      let files = [];
+      let publicFolderStatus = 'ok';
+
+      try {
+        files = await readdir(path.join(process.cwd(), 'public'));
+      } catch {
+        publicFolderStatus = 'not found';
+      }
+
+      response.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      response.end(JSON.stringify({
+        version: webServerVersion,
+        cwd: process.cwd(),
+        publicFolderStatus,
+        files
+      }, null, 2));
+      return;
+    }
 
     if (!url.pathname.includes('..') && path.extname(url.pathname) === '.txt') {
       try {
