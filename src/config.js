@@ -1,17 +1,21 @@
 import 'dotenv/config';
 
+function envValue(name, fallback = '') {
+  return (process.env[name] || fallback).trim();
+}
+
 export const config = {
-  discordToken: process.env.DISCORD_TOKEN,
-  clientId: process.env.DISCORD_CLIENT_ID,
-  guildId: process.env.DISCORD_GUILD_ID,
-  youtubeApiKey: process.env.YOUTUBE_API_KEY || '',
-  publicBaseUrl: process.env.PUBLIC_BASE_URL || '',
-  port: Number(process.env.PORT || 3000),
-  tiktokClientKey: process.env.TIKTOK_CLIENT_KEY || process.env.TIKTOK_RESEARCH_CLIENT_KEY || '',
-  tiktokClientSecret: process.env.TIKTOK_CLIENT_SECRET || process.env.TIKTOK_RESEARCH_CLIENT_SECRET || '',
-  tiktokRedirectUri: process.env.TIKTOK_REDIRECT_URI || '',
-  tiktokResearchClientKey: process.env.TIKTOK_RESEARCH_CLIENT_KEY || '',
-  tiktokResearchClientSecret: process.env.TIKTOK_RESEARCH_CLIENT_SECRET || ''
+  discordToken: envValue('DISCORD_TOKEN'),
+  clientId: envValue('DISCORD_CLIENT_ID'),
+  guildId: envValue('DISCORD_GUILD_ID'),
+  youtubeApiKey: envValue('YOUTUBE_API_KEY'),
+  publicBaseUrl: envValue('PUBLIC_BASE_URL'),
+  port: Number(envValue('PORT', '3000')),
+  tiktokClientKey: envValue('TIKTOK_CLIENT_KEY') || envValue('TIKTOK_RESEARCH_CLIENT_KEY'),
+  tiktokClientSecret: envValue('TIKTOK_CLIENT_SECRET') || envValue('TIKTOK_RESEARCH_CLIENT_SECRET'),
+  tiktokRedirectUri: envValue('TIKTOK_REDIRECT_URI'),
+  tiktokResearchClientKey: envValue('TIKTOK_RESEARCH_CLIENT_KEY'),
+  tiktokResearchClientSecret: envValue('TIKTOK_RESEARCH_CLIENT_SECRET')
 };
 
 export function requireConfig(keys) {
