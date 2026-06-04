@@ -83,7 +83,7 @@ export function startWebServer() {
     }
 
     if (url.pathname === '/') {
-      sendHtml(response, 200, 'WendyClippersbot', 'WendyClippersbot is running. You can return to Discord.');
+      sendHtml(response, 200, 'WotionClippersbot', 'WotionClippersbot is running. You can return to Discord.');
       return;
     }
 
